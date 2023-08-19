@@ -6,15 +6,13 @@ const spriteSheetFlipped = document.getElementById('sprite-flipped')! as HTMLIma
 
 const widthOfOnePiece: number = 150;
 const heightOfOnePiece: number = 150;
-const numCols: number = 8;
+const numCols: number = 5;
 const numRows: number = 1;
 
 spriteSheetInput.addEventListener('change', (event: Event) => {
   if (!(event.target instanceof HTMLInputElement)) return;
   
   if (!event.target.files) return;
-  
-  console.log(event.target.files[0])
 
   const reader = new FileReader();
   reader.onload = () => {
@@ -26,10 +24,10 @@ spriteSheetInput.addEventListener('change', (event: Event) => {
 });
 
 const sliceImage = (): void => {
-  const imagePieces: string[] = [];
+  let imagePieces: string[] = [];
   for (let x = 0; x < numCols; ++x) {
     for (let y = 0; y < numRows; ++y) {
-        var canvas: HTMLCanvasElement = document.createElement('canvas');
+        const canvas: HTMLCanvasElement = document.createElement('canvas');
         canvas.width = widthOfOnePiece;
         canvas.height = heightOfOnePiece;
         const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
@@ -46,8 +44,36 @@ const sliceImage = (): void => {
           canvas.width, 
           canvas.height
         );
-        imagePieces.push(canvas.toDataURL());
+        imagePieces = [
+          ...imagePieces,
+          canvas.toDataURL(),
+        ];
     }
   }
-  spriteSheetFlipped.src = imagePieces[0];
+  assembleImage(imagePieces);
 }
+
+const loadImage = (src: string): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+    return img;
+  });
+}
+
+const assembleImage = async (imagePieces: string[]): Promise<void> => {
+  const canvas: HTMLCanvasElement = document.createElement('canvas');
+  canvas.width = widthOfOnePiece * imagePieces.length;
+  canvas.height = heightOfOnePiece;
+  const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
+
+  let width: number = 0;
+  for (const imagePiece of imagePieces) {
+    const img = await loadImage(imagePiece);
+    context.drawImage(img, width, 0);
+    width += widthOfOnePiece;
+  }
+  spriteSheetFlipped.src = canvas.toDataURL();
+};
