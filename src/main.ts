@@ -3,6 +3,7 @@ import './style.css'
 const spriteSheetInput = document.getElementById('sprite-input')! as HTMLInputElement;
 const spriteSheetImage = document.getElementById('sprite-img')! as HTMLImageElement;
 const spriteSheetFlipped = document.getElementById('sprite-flipped')! as HTMLImageElement;
+const downloadLink = document.getElementById('download')! as HTMLAnchorElement;
 
 const widthOfOnePiece: number = 150;
 const heightOfOnePiece: number = 150;
@@ -77,3 +78,10 @@ const assembleImage = async (imagePieces: string[]): Promise<void> => {
   }
   spriteSheetFlipped.src = canvas.toDataURL();
 };
+
+const downloadImage = (): void => {
+  downloadLink.href = spriteSheetFlipped.src;
+  downloadLink.download = 'flipped.png';
+};
+
+downloadLink.addEventListener('click', downloadImage);
