@@ -33,6 +33,8 @@ const sliceImage = (): void => {
         canvas.width = widthOfOnePiece;
         canvas.height = heightOfOnePiece;
         const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
+        context.translate(widthOfOnePiece, 0);
+        context.scale(-1, 1);
         context.drawImage(
           spriteSheetImage, 
           x * widthOfOnePiece, 
