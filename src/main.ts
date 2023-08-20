@@ -1,4 +1,6 @@
-import './style.css'
+import { ImageType, ImageExtension } from './constants';
+
+import './style.css';
 
 const spriteSheetInput = document.getElementById('sprite-input')! as HTMLInputElement;
 const spriteSheetImage = document.getElementById('sprite-img')! as HTMLImageElement;
@@ -10,10 +12,29 @@ const heightOfOnePiece: number = 150;
 const numCols: number = 5;
 const numRows: number = 1;
 
+let imageExtension: string | undefined;
+
 spriteSheetInput.addEventListener('change', (event: Event) => {
   if (!(event.target instanceof HTMLInputElement)) return;
   
   if (!event.target.files) return;
+  console.log(event.target.files[0].type)
+
+  switch (event.target.files[0].type) {
+    case ImageType.Png:
+        imageExtension = ImageExtension.Png;
+        break;
+    case ImageType.Jpeg:
+        imageExtension = ImageExtension.Jpeg;
+        break;
+    default:
+        break;
+  }
+
+  if (!imageExtension) {
+    alert('Invalid image type');
+    return;
+  }
 
   const reader = new FileReader();
   reader.onload = () => {
@@ -77,11 +98,16 @@ const assembleImage = async (imagePieces: string[]): Promise<void> => {
     width += widthOfOnePiece;
   }
   spriteSheetFlipped.src = canvas.toDataURL();
+  
+  const hiddenElements: NodeListOf<HTMLDivElement> = document.querySelectorAll('[data-hidden]');
+  for (const el of hiddenElements) {
+    el.dataset.hidden = 'false';
+  }
 };
 
 const downloadImage = (): void => {
   downloadLink.href = spriteSheetFlipped.src;
-  downloadLink.download = 'flipped.png';
+  downloadLink.download = `flipped.${imageExtension}`;
 };
 
 downloadLink.addEventListener('click', downloadImage);

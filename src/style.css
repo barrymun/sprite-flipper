@@ -70,3 +70,7 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+div[data-hidden="true"] {
+  display: none;
+}
