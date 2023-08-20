@@ -102,3 +102,7 @@ div[data-hidden-b="true"] {
   align-items: center;
   margin: 1em 0;
 }
+
+.spacer {
+  margin: 0.5em 0;
+}

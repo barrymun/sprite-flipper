@@ -1,4 +1,4 @@
-import { camelCase } from "lodash";
+import { camelCase, isNaN } from "lodash";
 
 import { ImageType, ImageExtension } from "./constants";
 
@@ -7,53 +7,30 @@ import "./style.css";
 const spriteSheetInput = document.getElementById("sprite-input")! as HTMLInputElement;
 const spriteSheetImage = document.getElementById("sprite-img")! as HTMLImageElement;
 const spriteSheetFlipped = document.getElementById("sprite-flipped")! as HTMLImageElement;
+const spriteInputWidth = document.getElementById("sprite-input-width")! as HTMLInputElement;
+const spriteInputHeight = document.getElementById("sprite-input-height")! as HTMLInputElement;
+const spriteSubmitBtn = document.getElementById("sprite-submit")! as HTMLButtonElement;
 const downloadLink = document.getElementById("download")! as HTMLAnchorElement;
 
-const widthOfOnePiece: number = 150;
-const heightOfOnePiece: number = 150;
-const numCols: number = 5;
-const numRows: number = 1;
+const numRows: number = 1; // leaving this as 1 for now
 
 let imageExtension: string | undefined;
-
-spriteSheetInput.addEventListener("change", (event: Event) => {
-    if (!(event.target instanceof HTMLInputElement)) return;
-
-    if (!event.target.files) return;
-    console.log(event.target.files[0].type);
-
-    switch (event.target.files[0].type) {
-        case ImageType.Png:
-            imageExtension = ImageExtension.Png;
-            break;
-        case ImageType.Jpeg:
-            imageExtension = ImageExtension.Jpeg;
-            break;
-        default:
-            break;
-    }
-
-    if (!imageExtension) {
-        alert("Invalid image type");
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => {
-        console.log(reader.result);
-        // spriteSheetImage.onload = sliceImage;
-        spriteSheetImage.src = reader.result as string;
-        showElement('hidden-a');
-    };
-    reader.readAsDataURL(event.target.files[0]);
-});
+let widthOfOnePiece: number = 0;
+let heightOfOnePiece: number = 0;
+let numCols: number = 0;
 
 const showElement = (selector: string): void => {
     const hiddenElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(`[data-${selector}]`);
-    console.log(hiddenElements)
     for (const el of hiddenElements) {
         el.dataset[camelCase(selector)] = "false";
     }
+};
+
+const setDimensions = (): void => {
+    widthOfOnePiece = isNaN(spriteInputWidth.valueAsNumber) ? 0 : spriteInputWidth.valueAsNumber;
+    heightOfOnePiece = isNaN(spriteInputHeight.valueAsNumber) ? 0 : spriteInputHeight.valueAsNumber;
+    numCols = spriteSheetImage.width / widthOfOnePiece;
+    sliceImage();
 };
 
 const sliceImage = (): void => {
@@ -113,5 +90,38 @@ const downloadImage = (): void => {
     downloadLink.href = spriteSheetFlipped.src;
     downloadLink.download = `flipped.${imageExtension}`;
 };
+
+spriteSheetInput.addEventListener("change", (event: Event) => {
+    if (!(event.target instanceof HTMLInputElement)) return;
+
+    if (!event.target.files) return;
+
+    console.log(event.target.files[0])
+
+    switch (event.target.files[0].type) {
+        case ImageType.Png:
+            imageExtension = ImageExtension.Png;
+            break;
+        case ImageType.Jpeg:
+            imageExtension = ImageExtension.Jpeg;
+            break;
+        default:
+            break;
+    }
+
+    if (!imageExtension) {
+        alert("Invalid image type");
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        spriteSheetImage.src = reader.result as string;
+        showElement('hidden-a');
+    };
+    reader.readAsDataURL(event.target.files[0]);
+});
+
+spriteSubmitBtn.addEventListener("click", setDimensions);
 
 downloadLink.addEventListener("click", downloadImage);
