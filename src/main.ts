@@ -96,8 +96,6 @@ const handleChange = (event: Event): void => {
 
     if (!event.target.files) return;
 
-    console.log(event.target.files[0])
-
     switch (event.target.files[0].type) {
         case ImageType.Png:
             imageExtension = ImageExtension.Png;
@@ -117,6 +115,7 @@ const handleChange = (event: Event): void => {
     const reader = new FileReader();
     reader.onload = () => {
         spriteSheetImage.src = reader.result as string;
+        toggleElementVisibility({ selector: 'hidden-b', isHidden: 'true' });
         toggleElementVisibility({ selector: 'hidden-a', isHidden: 'false' });
     };
     reader.readAsDataURL(event.target.files[0]);
