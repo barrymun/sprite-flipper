@@ -91,7 +91,7 @@ const downloadImage = (): void => {
     downloadLink.download = `flipped.${imageExtension}`;
 };
 
-spriteSheetInput.addEventListener("change", (event: Event) => {
+const handleChange = (event: Event): void => {
     if (!(event.target instanceof HTMLInputElement)) return;
 
     if (!event.target.files) return;
@@ -120,8 +120,16 @@ spriteSheetInput.addEventListener("change", (event: Event) => {
         showElement('hidden-a');
     };
     reader.readAsDataURL(event.target.files[0]);
-});
+};
 
+const handleUnload = () => {
+    spriteSheetInput.removeEventListener("change", handleChange);
+    spriteSubmitBtn.removeEventListener("click", setDimensions);
+    downloadLink.removeEventListener("click", downloadImage);
+};
+
+spriteSheetInput.addEventListener("change", handleChange);
 spriteSubmitBtn.addEventListener("click", setDimensions);
-
 downloadLink.addEventListener("click", downloadImage);
+
+window.addEventListener('unload', handleUnload);
