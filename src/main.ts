@@ -1,3 +1,5 @@
+import { camelCase } from "lodash";
+
 import { ImageType, ImageExtension } from "./constants";
 
 import "./style.css";
@@ -39,11 +41,20 @@ spriteSheetInput.addEventListener("change", (event: Event) => {
     const reader = new FileReader();
     reader.onload = () => {
         console.log(reader.result);
-        spriteSheetImage.onload = sliceImage;
+        // spriteSheetImage.onload = sliceImage;
         spriteSheetImage.src = reader.result as string;
+        showElement('hidden-a');
     };
     reader.readAsDataURL(event.target.files[0]);
 });
+
+const showElement = (selector: string): void => {
+    const hiddenElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(`[data-${selector}]`);
+    console.log(hiddenElements)
+    for (const el of hiddenElements) {
+        el.dataset[camelCase(selector)] = "false";
+    }
+};
 
 const sliceImage = (): void => {
     let imagePieces: string[] = [];
@@ -95,11 +106,7 @@ const assembleImage = async (imagePieces: string[]): Promise<void> => {
         width += widthOfOnePiece;
     }
     spriteSheetFlipped.src = canvas.toDataURL();
-
-    const hiddenElements: NodeListOf<HTMLDivElement> = document.querySelectorAll("[data-hidden]");
-    for (const el of hiddenElements) {
-        el.dataset.hidden = "false";
-    }
+    showElement('hidden-b');
 };
 
 const downloadImage = (): void => {
