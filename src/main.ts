@@ -19,10 +19,10 @@ let widthOfOnePiece: number = 0;
 let heightOfOnePiece: number = 0;
 let numCols: number = 0;
 
-const showElement = (selector: string): void => {
+const toggleElementVisibility = ({ selector, isHidden }: { selector: string; isHidden: "true" | "false"; }): void => {
     const hiddenElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(`[data-${selector}]`);
     for (const el of hiddenElements) {
-        el.dataset[camelCase(selector)] = "false";
+        el.dataset[camelCase(selector)] = isHidden;
     }
 };
 
@@ -83,7 +83,7 @@ const assembleImage = async (imagePieces: string[]): Promise<void> => {
         width += widthOfOnePiece;
     }
     spriteSheetFlipped.src = canvas.toDataURL();
-    showElement('hidden-b');
+    toggleElementVisibility({ selector: 'hidden-b', isHidden: 'false' });
 };
 
 const downloadImage = (): void => {
@@ -117,7 +117,7 @@ const handleChange = (event: Event): void => {
     const reader = new FileReader();
     reader.onload = () => {
         spriteSheetImage.src = reader.result as string;
-        showElement('hidden-a');
+        toggleElementVisibility({ selector: 'hidden-a', isHidden: 'false' });
     };
     reader.readAsDataURL(event.target.files[0]);
 };
