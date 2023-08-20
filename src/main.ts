@@ -2,15 +2,9 @@ import { ImageType, ImageExtension } from "./constants";
 
 import "./style.css";
 
-const spriteSheetInput = document.getElementById(
-    "sprite-input",
-)! as HTMLInputElement;
-const spriteSheetImage = document.getElementById(
-    "sprite-img",
-)! as HTMLImageElement;
-const spriteSheetFlipped = document.getElementById(
-    "sprite-flipped",
-)! as HTMLImageElement;
+const spriteSheetInput = document.getElementById("sprite-input")! as HTMLInputElement;
+const spriteSheetImage = document.getElementById("sprite-img")! as HTMLImageElement;
+const spriteSheetFlipped = document.getElementById("sprite-flipped")! as HTMLImageElement;
 const downloadLink = document.getElementById("download")! as HTMLAnchorElement;
 
 const widthOfOnePiece: number = 150;
@@ -102,8 +96,7 @@ const assembleImage = async (imagePieces: string[]): Promise<void> => {
     }
     spriteSheetFlipped.src = canvas.toDataURL();
 
-    const hiddenElements: NodeListOf<HTMLDivElement> =
-        document.querySelectorAll("[data-hidden]");
+    const hiddenElements: NodeListOf<HTMLDivElement> = document.querySelectorAll("[data-hidden]");
     for (const el of hiddenElements) {
         el.dataset.hidden = "false";
     }

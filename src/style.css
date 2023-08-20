@@ -66,11 +66,38 @@ button:focus-visible {
   }
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+input {
+  border-radius: 8px;
+  border: 1px solid #747bff;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  color: inherit;
+  transition: border-color 0.25s;
+}
+
 img {
   max-width: 100%;
   height: auto;
+  border: 1px solid #747bff;
+  border-radius: 4px;
 }
 
 div[data-hidden="true"] {
   display: none;
+}
+
+.sprite-input-cntr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em 0;
 }
