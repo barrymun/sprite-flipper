@@ -1,8 +1,8 @@
 import { camelCase, isNaN } from "lodash";
 
-import { ImageType, ImageExtension } from "./constants";
+import { ImageType, ImageExtension } from "./utils/constants";
 
-import "./style.css";
+import "./assets/style.css";
 
 const spriteSheetInput = document.getElementById("sprite-input")! as HTMLInputElement;
 const spriteSheetImage = document.getElementById("sprite-img")! as HTMLImageElement;
