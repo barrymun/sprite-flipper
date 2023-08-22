@@ -1,17 +1,16 @@
-import { isNaN } from "lodash";
-
 import { ImageType, ImageExtension } from "./utils/constants";
 import { toggleElementVisibility } from "./utils/helpers";
+import { 
+    downloadLink, 
+    spriteInputHeight, 
+    spriteInputWidth, 
+    spriteSheetFlipped, 
+    spriteSheetImage, 
+    spriteSheetInput, 
+    spriteSubmitBtn, 
+} from "./utils/elements";
 
 import "./assets/style.css";
-
-const spriteSheetInput = document.getElementById("sprite-input")! as HTMLInputElement;
-const spriteSheetImage = document.getElementById("sprite-img")! as HTMLImageElement;
-const spriteSheetFlipped = document.getElementById("sprite-flipped")! as HTMLImageElement;
-const spriteInputWidth = document.getElementById("sprite-input-width")! as HTMLInputElement;
-const spriteInputHeight = document.getElementById("sprite-input-height")! as HTMLInputElement;
-const spriteSubmitBtn = document.getElementById("sprite-submit")! as HTMLButtonElement;
-const downloadLink = document.getElementById("download")! as HTMLAnchorElement;
 
 const numRows: number = 1; // leaving this as 1 for now
 
@@ -20,7 +19,9 @@ let widthOfOnePiece: number = 0;
 let heightOfOnePiece: number = 0;
 let numCols: number = 0;
 
-const setDimensions = (): void => {
+export const setDimensions = ({
+    
+}): void => {
     widthOfOnePiece = isNaN(spriteInputWidth.valueAsNumber) ? 0 : spriteInputWidth.valueAsNumber;
     heightOfOnePiece = isNaN(spriteInputHeight.valueAsNumber) ? 0 : spriteInputHeight.valueAsNumber;
     numCols = spriteSheetImage.width / widthOfOnePiece;
