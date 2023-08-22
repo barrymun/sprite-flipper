@@ -1,5 +1,5 @@
-import { ImageType, ImageExtension } from "./utils/constants";
-import { toggleElementVisibility } from "./utils/helpers";
+import { ImageType, ImageExtension } from "utils/constants";
+import { toggleElementVisibility } from "utils/helpers";
 import { 
     downloadLink, 
     spriteInputHeight, 
@@ -8,9 +8,9 @@ import {
     spriteSheetImage, 
     spriteSheetInput, 
     spriteSubmitBtn, 
-} from "./utils/elements";
+} from "utils/elements";
 
-import "./assets/style.css";
+import "assets/style.css";
 
 const numRows: number = 1; // leaving this as 1 for now
 
