@@ -15,3 +15,16 @@ export const toggleElementVisibility = ({
         el.dataset[camelCase(selector)] = isHidden;
     }
 };
+
+/**
+ * Loads an image from the specified source asynchronously.
+ */
+export const loadImage = (src: string): Promise<HTMLImageElement> => {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+        return img;
+    });
+};
