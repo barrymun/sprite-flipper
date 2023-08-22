@@ -1,6 +1,7 @@
-import { camelCase, isNaN } from "lodash";
+import { isNaN } from "lodash";
 
 import { ImageType, ImageExtension } from "./utils/constants";
+import { toggleElementVisibility } from "./utils/helpers";
 
 import "./assets/style.css";
 
@@ -18,13 +19,6 @@ let imageExtension: string | undefined;
 let widthOfOnePiece: number = 0;
 let heightOfOnePiece: number = 0;
 let numCols: number = 0;
-
-const toggleElementVisibility = ({ selector, isHidden }: { selector: string; isHidden: "true" | "false"; }): void => {
-    const hiddenElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(`[data-${selector}]`);
-    for (const el of hiddenElements) {
-        el.dataset[camelCase(selector)] = isHidden;
-    }
-};
 
 const setDimensions = (): void => {
     widthOfOnePiece = isNaN(spriteInputWidth.valueAsNumber) ? 0 : spriteInputWidth.valueAsNumber;
