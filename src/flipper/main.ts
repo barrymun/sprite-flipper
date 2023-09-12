@@ -52,7 +52,7 @@ export class Flipper {
     private handleChange = (event: Event): void => {
         if (!(event.target instanceof HTMLInputElement)) return;
     
-        if (!event.target.files) return;
+        if (!event.target.files || event.target.files.length === 0) return;
     
         switch (event.target.files[0].type) {
             case ImageType.Png:
