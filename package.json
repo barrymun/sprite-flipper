@@ -9,35 +9,25 @@
     "preview": "vite preview",
     "deploy": "yarn build && cp CNAME dist/ && cd dist && surge"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.{js,ts}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.css": [
-      "stylelint",
-      "prettier --write --tab-width=2"
+    "src/**/*.ts": [
+      "prettier --write \"src/**/*.ts\""
     ]
   },
   "devDependencies": {
     "@types/lodash": "^4.14.197",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "@typescript-eslint/parser": "^6.4.0",
-    "eslint": "^8.47.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^14.0.0",
-    "prettier": "^3.0.2",
-    "stylelint": "^15.10.3",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^8.49.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
+    "prettier": "3.0.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-tsconfig-paths": "^4.2.0"
   },
   "dependencies": {
+    "image-ops": "^1.0.6",
     "lodash": "^4.17.21"
   }
 }
