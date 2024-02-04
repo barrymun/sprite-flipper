@@ -53,7 +53,9 @@ export class Flipper {
 
   private handleChange = (event: Event): void => {
     const files = getImageTargetFileList(event);
-    if (!files) return;
+    if (files === null) {
+      return;
+    }
 
     switch (files[0].type) {
       case ImageType.Png:
@@ -81,6 +83,19 @@ export class Flipper {
   };
 
   private setDimensions = (): void => {
+    if (spriteSheetImage.width === 0 || spriteSheetImage.height === 0) {
+      alert("Please try again. The image may not have loaded properly or the dimensions are invalid.");
+      return;
+    }
+    if (
+      isNaN(spriteInputWidth.valueAsNumber) ||
+      spriteInputWidth.valueAsNumber === 0 ||
+      isNaN(spriteInputHeight.valueAsNumber) ||
+      spriteInputHeight.valueAsNumber === 0
+    ) {
+      alert("Invalid dimensions. Please ensure that the width and height are greater than 0.");
+      return;
+    }
     this.setWidthOfOnePiece(isNaN(spriteInputWidth.valueAsNumber) ? 0 : spriteInputWidth.valueAsNumber);
     this.setHeightOfOnePiece(isNaN(spriteInputHeight.valueAsNumber) ? 0 : spriteInputHeight.valueAsNumber);
     this.setNumCols(spriteSheetImage.width / this.getWidthOfOnePiece());
